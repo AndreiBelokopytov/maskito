@@ -8,13 +8,22 @@ export function extractAffixes(
     extractedPostfix: string;
     cleanValue: string;
 } {
-    const prefixRegExp = new RegExp(`^${escapeRegExp(prefix)}`);
-    const postfixRegExp = new RegExp(`${escapeRegExp(postfix)}$`);
+    const prefixSearchResults = new RegExp(`^${escapeRegExp(prefix)}`).exec(value);
+    const postfixSearchResults = new RegExp(`${escapeRegExp(postfix)}$`).exec(value);
 
-    const [extractedPrefix = ''] = value.match(prefixRegExp) ?? [];
-    const [extractedPostfix = ''] = value.match(postfixRegExp) ?? [];
+    const extractedPrefix = prefixSearchResults ? prefixSearchResults[0] : '';
+    const extractedPostfix = postfixSearchResults ? postfixSearchResults[0] : '';
 
-    const cleanValue = value.replace(prefixRegExp, '').replace(postfixRegExp, '');
+    if (extractedPrefix || extractedPostfix) {
+        return {
+            extractedPrefix,
+            extractedPostfix,
+            cleanValue: value.slice(
+                extractedPrefix.length,
+                extractedPostfix.length ? -extractedPostfix.length : Infinity,
+            ),
+        };
+    }
 
-    return {extractedPrefix, extractedPostfix, cleanValue};
+    return {extractedPrefix, extractedPostfix, cleanValue: value};
 }
