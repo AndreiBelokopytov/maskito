@@ -8,11 +8,11 @@ export function extractAffixes(
     extractedPostfix: string;
     cleanValue: string;
 } {
-    const prefixSearchResults = new RegExp(`^${escapeRegExp(prefix)}`).exec(value);
-    const postfixSearchResults = new RegExp(`${escapeRegExp(postfix)}$`).exec(value);
+    const prefixRegExp = new RegExp(`^${escapeRegExp(prefix)}`);
+    const postfixRegExp = new RegExp(`${escapeRegExp(postfix)}$`);
 
-    const extractedPrefix = prefixSearchResults ? prefixSearchResults[0] : '';
-    const extractedPostfix = postfixSearchResults ? postfixSearchResults[0] : '';
+    const [extractedPrefix = ''] = value.match(prefixRegExp) ?? [];
+    const [extractedPostfix = ''] = value.match(postfixRegExp) ?? [];
 
     if (extractedPrefix || extractedPostfix) {
         return {
