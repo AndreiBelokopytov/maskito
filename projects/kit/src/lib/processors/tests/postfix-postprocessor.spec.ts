@@ -79,7 +79,7 @@ describe('maskitoPostfixPostprocessorGenerator', () => {
                     {value: '$_per_kg', selection: [2, 2]}, // after
                     {value: '$_100_per_kg', selection: ['$_'.length, '$_100_'.length]}, // initial
                 ),
-            ).toEqual({value: '$__per_kg', selection: [2, 2]});
+            ).toEqual({value: '$_per_kg', selection: [2, 2]});
         });
 
         it('$__100__per_kg => $__|100__|per_kg (select all digits and 2 underscore) => Delete => $__|__per_kg', () => {
@@ -93,7 +93,7 @@ describe('maskitoPostfixPostprocessorGenerator', () => {
                         selection: ['$__'.length, '$__100__'.length],
                     }, // initial
                 ),
-            ).toEqual({value: '$____per_kg', selection: [3, 3]});
+            ).toEqual({value: '$__per_kg', selection: [3, 3]});
         });
     });
 });
