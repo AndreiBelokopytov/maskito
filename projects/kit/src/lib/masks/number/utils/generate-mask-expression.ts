@@ -8,7 +8,6 @@ export function generateMaskExpression({
     precision,
     thousandSeparator,
     prefix,
-    postfix,
     decimalPseudoSeparators = [],
     pseudoMinuses = [],
     minusSign,
@@ -38,11 +37,8 @@ export function generateMaskExpression({
                   .map(escapeRegExp)
                   .join('')}]${digit}{0,${precisionPart}})?`
             : '';
-    const computedPostfix = computeAllOptionalCharsRegExp(postfix);
 
-    return new RegExp(
-        `^${computedPrefix}${optionalMinus}${integerPart}${decimalPart}${computedPostfix}$`,
-    );
+    return new RegExp(`^${computedPrefix}${optionalMinus}${integerPart}${decimalPart}$`);
 }
 
 function computeAllOptionalCharsRegExp(str: string): string {
